@@ -15,11 +15,11 @@ Simply clone the repository and test the executable "gui.exe".
 ## Application Options
 
 ### File Options
-- You may change the filename of the video to be downloaded.
+- You may change the filename of the video to be downloaded. (Use only alphanumeric characters, underscores, hyphens, periods and/or spaces)
 - Specify whether or not you wish for the video file to be opened immediately in VLC by checking the box
 
 ### Path Options
-- Click "Browse" and select where you wish the video file to end up. (Default: "videos" -folder) (Use only alphanumeric characters, underscores, hyphens, periods and/or spaces)
+- Click "Browse" and select where you wish the video file to end up. (Default: "videos" -folder)
 - Click "Browse" and select the location of your VLC.exe. (Default: "C:/Program Files/VideoLAN/VLC")
 *Heads up: inputting text in the path options instead of using FileBrowse might cause problems, as each keystroke will trigger an event that changes the path specified in paths.json -file.*
 
