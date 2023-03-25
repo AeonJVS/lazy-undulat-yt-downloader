@@ -4,9 +4,9 @@ A YouTube Downloader written in Python with a GUI built with PySimpleGUI. Offers
 ## Installation
 
 ## Quick Instructions
-1. Launch "gui.exe"
-2. Copy a YouTube video URL
-3. Input URL at the bottom left of application window
+1. Launch "gui.exe".
+2. Copy a YouTube video URL.
+3. Input URL at the bottom left of application window.
 4. Click "Ok".
 
 ## Application Options
