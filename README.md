@@ -1,4 +1,4 @@
-# Lazy Undulat Youtube Downloader
+# LazyUndulat Youtube Downloader
 A YouTube Downloader written in Python with a GUI built with PySimpleGUI. Offers an easy and quick way to download videos via URL, specify download destination and optionally a path to VLC for immediate playback.
 
 ![gui-screenshot](https://user-images.githubusercontent.com/64533217/227733286-55d67717-d80d-42b8-87f8-77c8529608ad.png)
