@@ -20,6 +20,5 @@ A YouTube Downloader written in Python with a GUI built with PySimpleGUI. Offers
 - Click "Browse" and select the location of your VLC.exe. (Default: "C:/Program Files/VideoLAN/VLC")
 *Heads up: inputting text in the path options instead of using FileBrowse might cause problems, as each keystroke will trigger an event that changes the path specified in paths.json -file.*
 
-## Known Problems
-- The application is supposed to display the YouTube video's thumbnail image after a successful download. For a reason or another, this might fail occasionally. A popup will inform you if it happens.
+## Good-to-know
 - Because the download happens in a thread, it is in practice possible to "chain" downloads by inputting another URL and pressing "Ok" while the Download-animation is running. However, I would not recommend this, as it might cause unexpected behavior.
