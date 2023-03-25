@@ -2,6 +2,7 @@
 A YouTube Downloader written in Python with a GUI built with PySimpleGUI. Offers an easy and quick way to download videos via URL, specify download destination and optionally a path to VLC for immediate playback.
 
 ## Installation
+Simply clone the repository and test the executable "gui.exe".
 
 ## Quick Instructions
 1. Launch "gui.exe".
