@@ -12,13 +12,13 @@ import time
 import downloader
 
 sg.theme("DarkGreen4")
-gifAnimation = False
+gif_animation = False
 
 # Threading
-def ThreadFunction(inputValue):
+def thread_function(input_value):
     window.write_event_value('-START-GIF-','')
     logging.info("Thread: starting download")
-    downloader.YouTubeDownload(inputValue)
+    downloader.youtube_download(input_value)
     logging.info("Thread: download finished")
     window.write_event_value('-STOP-GIF-','')
     logging.info("Thread: finishing")
@@ -32,23 +32,23 @@ else:
 
 
 # RegEx for validating correct URL format
-def ValidateYouTubeUrl(url):
+def validate_youtube_url(url):
     pattern = re.compile(r'^https?://(www\.)?youtube\.com/watch\?v=[\w-]{11}$')
     return pattern.match(url) is not None
 
 
 # RegEx for validating allowed filename format
-def ValidateFilename(filename):
+def validate_filename(filename):
     pattern = r'^[a-zA-Z0-9_\.\- ]+$'
     return bool(re.match(pattern, filename))
 
 
 # get thumbnail and display after download success
-def DisplayThumbnail():
-    pathDict = downloader.getPaths()
+def display_thumbnail():
+    path_dict = downloader.get_paths()
     time.sleep(2)
     try:
-        with urllib.request.urlopen(pathDict["video_thumbnail"]) as url:
+        with urllib.request.urlopen(path_dict["video_thumbnail"]) as url:
             image_data = url.read()
             img = Image.open(BytesIO(image_data))
             png_bio = BytesIO()
@@ -60,17 +60,17 @@ def DisplayThumbnail():
         sg.popup('Something went wrong. Cannot display thumbnail.', icon=sys_specific_icon, title='Problem')
 
 
-def SavePaths(pathName1, pathName2, pathName3, pathName4, newPathName, pathValue):
+def save_paths(path_name1, path_name2, path_name3, path_name4, new_path_name, path_value):
     with open("paths.json", "r") as f:
         paths = json.load(f)
-        path1 = paths[pathName1]
-        path2 = paths[pathName2]
-        path3 = paths[pathName3]
-        path4 = paths[pathName4]
+        path1 = paths[path_name1]
+        path2 = paths[path_name2]
+        path3 = paths[path_name3]
+        path4 = paths[path_name4]
 
-    newPath = values[pathValue]
+    new_path = values[path_value]
 
-    paths = {pathName1: path1, pathName2: path2, pathName3: path3, pathName4: path4, newPathName: newPath}
+    paths = {path_name1: path1, path_name2: path2, path_name3: path3, path_name4: path4, new_path_name: new_path}
     with open("paths.json", "w") as f:
         json.dump(paths, f)
 
@@ -135,57 +135,57 @@ while True:
         break
     
     if event == "-SUBMIT-FILENAME-":
-        if ValidateFilename(values["-NEW-FILENAME-"]):
-            SavePaths("VLC_FILE_PATH", "VIDEO_FILE_PATH", "THUMBNAIL", "LATEST_DOWNLOAD", "VIDEO_FILENAME", "-NEW-FILENAME-")
+        if validate_filename(values["-NEW-FILENAME-"]):
+            save_paths("VLC_FILE_PATH", "VIDEO_FILE_PATH", "THUMBNAIL", "LATEST_DOWNLOAD", "VIDEO_FILENAME", "-NEW-FILENAME-")
         else:
             sg.popup('Invalid filename! Use only alphanumeric characters, underscores, hyphens, periods and/or spaces', icon=sys_specific_icon, title='Problem')
 
     if event == "-VIDEO-FOLDER-":
-        SavePaths("VLC_FILE_PATH", "VIDEO_FILENAME", "THUMBNAIL", "LATEST_DOWNLOAD", "VIDEO_FILE_PATH", "-VIDEO-FOLDER-")
+        save_paths("VLC_FILE_PATH", "VIDEO_FILENAME", "THUMBNAIL", "LATEST_DOWNLOAD", "VIDEO_FILE_PATH", "-VIDEO-FOLDER-")
 
     if event == "-VLC-FOLDER-":
-        SavePaths("VIDEO_FILE_PATH", "VIDEO_FILENAME", "THUMBNAIL", "LATEST_DOWNLOAD", "VLC_FILE_PATH", "-VLC-FOLDER-")
+        save_paths("VIDEO_FILE_PATH", "VIDEO_FILENAME", "THUMBNAIL", "LATEST_DOWNLOAD", "VLC_FILE_PATH", "-VLC-FOLDER-")
 
     if event == "-BUTTON-KEY-" and values["-IN-"] == True:
-        if ValidateYouTubeUrl(values["-INPUT-"]):
+        if validate_youtube_url(values["-INPUT-"]):
 
-            inputValue = values["-INPUT-"]
+            input_value = values["-INPUT-"]
             logging.info("Main: creating thread")
-            threading.Thread(target=ThreadFunction, args=(inputValue,), daemon=True).start()
+            threading.Thread(target=thread_function, args=(input_value,), daemon=True).start()
         else:
             sg.popup('Download failed: Invalid YouTube URL', icon=sys_specific_icon, title='Problem')
 
     if event == "-BUTTON-KEY-" and values["-IN-"] != True:
-        if ValidateYouTubeUrl(values["-INPUT-"]):
+        if validate_youtube_url(values["-INPUT-"]):
             
-            inputValue = values["-INPUT-"]
+            input_value = values["-INPUT-"]
             logging.info("Main: creating thread")
-            threading.Thread(target=ThreadFunction, args=(inputValue,), daemon=True).start()
+            threading.Thread(target=thread_function, args=(input_value,), daemon=True).start()
         else:
             sg.popup('Download failed: Invalid YouTube URL', icon=sys_specific_icon, title='Problem')
 
     if event == "-START-GIF-":
-        gifAnimation = True
+        gif_animation = True
 
     if event == "-STOP-GIF-":
         logging.info("Main: stopping gif")
-        gifAnimation = False
+        gif_animation = False
         window.write_event_value('-DONE-','')
 
-    if gifAnimation:
+    if gif_animation:
        sg.popup_animated('./assets/img/animatedFrames.gif', time_between_frames=500)
     else:
        sg.popup_animated(None)
        
     if event == "-DONE-" and values["-IN-"] != True:
-        DisplayThumbnail()
+        display_thumbnail()
         sg.popup('Download successful!', icon=sys_specific_icon, title='Success')
 
     if event == "-DONE-" and values["-IN-"] == True:
-        DisplayThumbnail()
+        display_thumbnail()
         sg.popup('Download successful! Starting VLC..', icon=sys_specific_icon, title='Success')
         try:
-            downloader.PlayDownloadedVideo()
+            downloader.play_downloaded_video()
         except:
             sg.popup("VLC.exe could not be found! Check Path Options", icon=sys_specific_icon, title='Problem')
 
